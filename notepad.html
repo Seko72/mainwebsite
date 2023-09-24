@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mój Notatnik</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        body {
+            background-color: #f0f0f0; /* Twoje tło */
+        }
+
+        .note {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .note .note-date {
+            font-size: 10px;
+            color: #999;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .note .note-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mój Notatnik</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><button onclick="window.location.href = 'index.html';">Strona Główna</button></li>
+            <li><button onclick="window.open('https://zse.edu.gdansk.pl/pl', '_blank');">ZSE</button></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>Twoje Notatki</h2>
+        <div id="notes">
+            <!-- Notatki będą tutaj -->
+        </div>
+        <textarea id="newNote" placeholder="Wprowadź nową notatkę"></textarea>
+        <button onclick="addNote()">Dodaj Notatkę</button>
+    </main>
+    <footer>
+        &copy; Michał Czeczora 4k | <span id="currentDateTime"></span>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script>
+        VANTA.FOG({
+            el: "body",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            highlightColor: 0xef00ff,
+            midtoneColor: 0x30acf0,
+            lowlightColor: 0x2400ff
+        });
+
+        function updateDateTime() {
+            const currentDateTimeElement = document.getElementById('currentDateTime');
+            const now = new Date();
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            const formattedDateTime = now.toLocaleDateString('pl-PL', options);
+            currentDateTimeElement.textContent = 'Data: ' + formattedDateTime;
+        }
+        setInterval(updateDateTime, 1000);
+        window.onload = updateDateTime;
+
+        function addNote() {
+            const newNoteText = document.getElementById('newNote').value.trim();
+            if (newNoteText !== '') {
+                const notesContainer = document.getElementById('notes');
+                const newNoteElement = document.createElement('div');
+                newNoteElement.classList.add('note');
+                const noteDateElement = document.createElement('div');
+                noteDateElement.classList.add('note-date');
+                noteDateElement.textContent = 'Data: ' + new Date().toLocaleString('pl-PL');
+                newNoteElement.textContent = newNoteText;
+                const noteControls = document.createElement('div');
+                noteControls.classList.add('note-controls');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edytuj';
+                editButton.onclick = function() {
+                    editNote(newNoteElement);
+                };
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Usuń';
+                deleteButton.onclick = function() {
+                    deleteNote(newNoteElement);
+                };
+                noteControls.appendChild(editButton);
+                noteControls.appendChild(deleteButton);
+                newNoteElement.appendChild(noteDateElement);
+                newNoteElement.appendChild(noteControls);
+                notesContainer.appendChild(newNoteElement);
+
+                // Zapisz notatki do localStorage
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                notes.push({ text: newNoteText, date: new Date().toLocaleString('pl-PL') });
+                localStorage.setItem('notes', JSON.stringify(notes));
+
+                // Wyczyść pole tekstowe po dodaniu notatki
+                document.getElementById('newNote').value = '';
+            }
+        }
+
+        function editNote(noteElement) {
+            const newText = prompt('Edytuj notatkę:', noteElement.textContent);
+            if (newText !== null) {
+                noteElement.textContent = newText;
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const noteIndex = Array.from(noteElement.parentNode.children).indexOf(noteElement);
+                notes[noteIndex].text = newText;
+                localStorage.setItem('notes', JSON.stringify(notes)); // Aktualizuj notatki w localStorage
+            }
+        }
+
+        function deleteNote(noteElement) {
+    if (confirm('Czy na pewno chcesz usunąć tę notatkę?')) {
+        // Pobierz notatki z localStorage
+        const notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+        // Znajdź indeks notatki w tablicy notatek
+        const noteIndex = Array.from(noteElement.parentNode.children).indexOf(noteElement);
+
+        // Usuń notatkę z tablicy notatek
+        notes.splice(noteIndex, 1);
+
+        // Aktualizuj notatki w localStorage
+        localStorage.setItem('notes', JSON.stringify(notes));
+
+        // Usuń notatkę z interfejsu użytkownika
+        noteElement.remove();
+    }
+}
+
+
+        function loadNotesFromLocalStorage() {
+            const notesContainer = document.getElementById('notes');
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.forEach((note) => {
+                const newNoteElement = document.createElement('div');
+                newNoteElement.classList.add('note');
+                const noteDateElement = document.createElement('div');
+                noteDateElement.classList.add('note-date');
+                noteDateElement.textContent = note.date;
+                newNoteElement.textContent = note.text;
+                const noteControls = document.createElement('div');
+                noteControls.classList.add('note-controls');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edytuj';
+                editButton.onclick = function() {
+                    editNote(newNoteElement);
+                };
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Usuń';
+                deleteButton.onclick = function() {
+                    deleteNote(newNoteElement);
+                };
+                noteControls.appendChild(editButton);
+                noteControls.appendChild(deleteButton);
+                newNoteElement.appendChild(noteDateElement);
+                newNoteElement.appendChild(noteControls);
+                notesContainer.appendChild(newNoteElement);
+            });
+        }
+
+        loadNotesFromLocalStorage(); // Wczytaj notatki z localStorage po wczytaniu strony
+    </script>
+</body>
+</html>
