@@ -7,6 +7,29 @@
     <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="gallery.css">
     <style>
+        /* Reguły CSS dla wersji mobilnej */
+        @media (max-width: 768px) {
+            nav ul {
+                text-align: center;
+                padding: 0;
+            }
+            
+            nav li {
+                display: block;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+            
+            main {
+                max-width: 100%;
+            }
+            
+            button {
+                margin-bottom: 5px;
+                padding: 8px 16px;
+            }
+        }
+
         .photo img {
             max-width: 100%;
             height: auto;
@@ -20,7 +43,10 @@
     <nav>
         <ul>
             <li><button onclick="window.location.href = 'index.html';">Strona Główna</button></li>
-            <li><input type="file" accept="image/*" id="fileInput" style="display:none;"><button onclick="document.getElementById('fileInput').click();">Dodaj Zdjęcie</button></li>
+            <li>
+                <input type="file" accept="image/*" id="fileInput" style="display:none;">
+                <button onclick="document.getElementById('fileInput').click();">Dodaj Zdjęcie</button>
+            </li>
         </ul>
     </nav>
     <main>
