@@ -31,6 +31,33 @@
                 padding: 8px 16px;
             }
         }
+
+        /* Styl dla tła */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Twoje tło */
+        }
+
+        /* Styl dla zawartości strony */
+        main {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 60px; /* Wysokość stopki plus trochę dodatkowego odstępu */
+        }
+
+        /* Styl dla stopki */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333; /* Kolor tła stopki */
+            color: #fff; /* Kolor tekstu w stopce */
+            padding: 10px 0; /* Wewnętrzny odstęp w stopce */
+            text-align: center; /* Wyśrodkowanie tekstu w stopce */
+        }
     </style>
 </head>
 <body>
@@ -44,6 +71,7 @@
         </ul>
     </nav>
     <main>
+        <!-- Zawartość strony tutaj -->
         <h2>O mnie</h2>
         <p class="description">Cześć, jestem Michał Czeczora, a to jest moja strona internetowa. Jestem pasjonatem programowania i projektowania stron internetowych. Moja przygoda z technologią rozpoczęła się kilka lat temu, kiedy pierwszy raz zacząłem eksplorować świat kodowania. Od tego momentu moja fascynacja tą dziedziną tylko rosła.</p>
 
@@ -78,8 +106,8 @@
             mouseControls: true,
             touchControls: true,
             gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
+            minHeight: 0,
+            minWidth: 0,
             highlightColor: 0xef00ff,
             midtoneColor: 0x30acf0,
             lowlightColor: 0x2400ff
@@ -97,4 +125,3 @@
     </script>
 </body>
 </html>
-
