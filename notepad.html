@@ -6,13 +6,48 @@
     <title>Mój Notatnik</title>
     <link rel="stylesheet" href="style.css"> 
     <style>
+        /* Reguły CSS dla wersji mobilnej */
+        @media (max-width: 768px) {
+            nav ul {
+                text-align: center;
+                padding: 0;
+            }
+            
+            nav li {
+                display: block;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+
+            main {
+                max-width: 100%;
+            }
+
+            .note {
+                margin: 10px 0;
+                padding: 10px;
+            }
+
+            .note .note-date {
+                font-size: 10px;
+            }
+
+            textarea {
+                width: 100%;
+            }
+            
+            button {
+                margin-bottom: 10px;
+                padding: 8px 16px;
+            }
+        }
+
         body {
             background-color: #f0f0f0; /* Twoje tło */
         }
 
         .note {
             border: 1px solid #ccc;
-            margin: 10px;
             padding: 10px;
             background-color: #fff;
             position: relative;
@@ -129,24 +164,23 @@
         }
 
         function deleteNote(noteElement) {
-    if (confirm('Czy na pewno chcesz usunąć tę notatkę?')) {
-        // Pobierz notatki z localStorage
-        const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            if (confirm('Czy na pewno chcesz usunąć tę notatkę?')) {
+                // Pobierz notatki z localStorage
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
 
-        // Znajdź indeks notatki w tablicy notatek
-        const noteIndex = Array.from(noteElement.parentNode.children).indexOf(noteElement);
+                // Znajdź indeks notatki w tablicy notatek
+                const noteIndex = Array.from(noteElement.parentNode.children).indexOf(noteElement);
 
-        // Usuń notatkę z tablicy notatek
-        notes.splice(noteIndex, 1);
+                // Usuń notatkę z tablicy notatek
+                notes.splice(noteIndex, 1);
 
-        // Aktualizuj notatki w localStorage
-        localStorage.setItem('notes', JSON.stringify(notes));
+                // Aktualizuj notatki w localStorage
+                localStorage.setItem('notes', JSON.stringify(notes));
 
-        // Usuń notatkę z interfejsu użytkownika
-        noteElement.remove();
-    }
-}
-
+                // Usuń notatkę z interfejsu użytkownika
+                noteElement.remove();
+            }
+        }
 
         function loadNotesFromLocalStorage() {
             const notesContainer = document.getElementById('notes');
