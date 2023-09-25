@@ -5,6 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moja Strona Główna</title>
     <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Reguły CSS dla wersji mobilnej */
+        @media (max-width: 768px) {
+            nav {
+                text-align: center;
+            }
+            
+            nav ul {
+                padding: 0;
+            }
+            
+            nav li {
+                display: block;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+            
+            main {
+                max-width: 100%;
+            }
+            
+            button {
+                margin-bottom: 5px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -39,8 +66,6 @@
         </div>
         <p>Zapraszam również do odwiedzenia mojego profilu na GitHubie:</p>
         <button onclick="window.open('https://github.com/Seko72', '_blank');">GitHub</button>
-
-        
     </main>
     <footer>
         &copy; Michał Czeczora 4k | <span id="currentDateTime"></span>
@@ -72,3 +97,4 @@
     </script>
 </body>
 </html>
+
