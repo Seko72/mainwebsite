@@ -172,6 +172,8 @@
 
                 // Wyczyść pole tekstowe po dodaniu notatki
                 document.getElementById('newNote').value = '';
+                refreshPage();
+
             }
         }
 
@@ -183,6 +185,7 @@
                 const noteIndex = Array.from(noteElement.parentNode.children).indexOf(noteElement);
                 notes[noteIndex].text = newText;
                 localStorage.setItem('notes', JSON.stringify(notes)); // Aktualizuj notatki w localStorage
+                refreshPage();
             }
         }
 
@@ -202,6 +205,7 @@
 
                 // Usuń notatkę z interfejsu użytkownika
                 noteElement.remove();
+                refreshPage();
             }
         }
 
@@ -233,6 +237,9 @@
                 newNoteElement.appendChild(noteControls);
                 notesContainer.appendChild(newNoteElement);
             });
+        }
+        function refreshPage() {
+            location.reload();
         }
 
         loadNotesFromLocalStorage(); // Wczytaj notatki z localStorage po wczytaniu strony
